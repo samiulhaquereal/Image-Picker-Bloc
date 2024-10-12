@@ -12,14 +12,28 @@ class ImagePickerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       appBar: AppBar(title: const Text('Image Picker'),),
-      body: Center(
-        child: BlocBuilder<ImagePickerBloc, ImagePickerState>(builder: (context,state){
-          return state.file == null ? InkWell(
-              onTap: ()=> context.read<ImagePickerBloc>().add(CameraCapture()),
-              child: const CircleAvatar(
-                child: Icon(Icons.camera),
-              )) : Image.file(File(state.file!.path.toString()));
-        }),
+      body: Column(
+        children: [
+          Center(
+            child: BlocBuilder<ImagePickerBloc, ImagePickerState>(builder: (context,state){
+              return state.file == null ? InkWell(
+                  onTap: ()=> context.read<ImagePickerBloc>().add(CameraCapture()),
+                  child: const CircleAvatar(
+                    child: Icon(Icons.camera),
+                  )) : Image.file(File(state.file!.path.toString()));
+            }),
+          ),
+          const SizedBox(height: 20),
+          Center(
+            child: BlocBuilder<ImagePickerBloc, ImagePickerState>(builder: (context,state){
+              return state.file == null ? InkWell(
+                  onTap: ()=> context.read<ImagePickerBloc>().add(GalleryImagePicker()),
+                  child: const CircleAvatar(
+                    child: Icon(Icons.photo),
+                  )) : Image.file(File(state.file!.path.toString()));
+            }),
+          ),
+        ],
       ),
     ));
   }
